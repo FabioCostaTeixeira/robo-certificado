@@ -118,138 +118,135 @@ export const TrainingManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-edhec-gradient">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="bg-white rounded-xl shadow-xl p-6 mb-8 animate-fade-in">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-bold text-edhec-blue-900 mb-2">
-                  Gerenciar Treinamentos
-                </h2>
-                <p className="text-gray-600">
-                  Cadastre e gerencie os treinamentos disponíveis para geração de certificados.
-                </p>
-              </div>
-              
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button 
-                    className="bg-edhec-yellow-500 hover:bg-edhec-yellow-600 text-black font-semibold"
-                    onClick={() => resetForm()}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Novo Treinamento
-                  </Button>
-                </DialogTrigger>
+    <div className="space-y-6">
+      {/* Header */}
+      <Card className="clean-card">
+        <CardContent className="p-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold mb-2">
+                Gerenciar Treinamentos
+              </h2>
+              <p className="text-muted-foreground">
+                Cadastre e gerencie os treinamentos disponíveis para geração de certificados.
+              </p>
+            </div>
+            
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                  onClick={() => resetForm()}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Novo Treinamento
+                </Button>
+              </DialogTrigger>
                 
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle className="text-edhec-blue-900">
-                      {editingTraining ? 'Editar Treinamento' : 'Novo Treinamento'}
-                    </DialogTitle>
-                  </DialogHeader>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>
+                    {editingTraining ? 'Editar Treinamento' : 'Novo Treinamento'}
+                  </DialogTitle>
+                </DialogHeader>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Label htmlFor="name">Nome do Treinamento</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Ex: Treinamento de Segurança do Trabalho"
+                      className="mt-1"
+                      required
+                    />
+                  </div>
                   
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <Label htmlFor="name" className="text-edhec-blue-800">Nome do Treinamento</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                        placeholder="Ex: Treinamento de Segurança do Trabalho"
-                        className="mt-1"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="workload" className="text-edhec-blue-800">Carga Horária (horas)</Label>
-                      <Input
-                        id="workload"
-                        type="number"
-                        value={formData.workload}
-                        onChange={(e) => setFormData(prev => ({ ...prev, workload: e.target.value }))}
-                        placeholder="Ex: 8"
-                        min="1"
-                        className="mt-1"
-                        required
-                      />
-                    </div>
-                    
-                    <div className="flex justify-end space-x-2 pt-4">
-                      <Button type="button" variant="outline" onClick={resetForm}>
-                        Cancelar
-                      </Button>
-                      <Button type="submit" className="bg-edhec-yellow-500 hover:bg-edhec-yellow-600 text-black">
-                        {editingTraining ? 'Atualizar' : 'Cadastrar'}
-                      </Button>
+                  <div>
+                    <Label htmlFor="workload">Carga Horária (horas)</Label>
+                    <Input
+                      id="workload"
+                      type="number"
+                      value={formData.workload}
+                      onChange={(e) => setFormData(prev => ({ ...prev, workload: e.target.value }))}
+                      placeholder="Ex: 8"
+                      min="1"
+                      className="mt-1"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="flex justify-end space-x-2 pt-4">
+                    <Button type="button" variant="outline" onClick={resetForm}>
+                      Cancelar
+                    </Button>
+                    <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                      {editingTraining ? 'Atualizar' : 'Cadastrar'}
+                    </Button>
                     </div>
                   </form>
-                </DialogContent>
-              </Dialog>
-            </div>
+              </DialogContent>
+            </Dialog>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Training List */}
-          <div className="grid gap-4 animate-fade-in">
-            {trainings.length === 0 ? (
-              <Card className="bg-white shadow-xl">
-                <CardContent className="flex flex-col items-center justify-center py-12">
-                  <BookOpen className="h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Nenhum treinamento cadastrado
-                  </h3>
-                  <p className="text-gray-600 text-center mb-4">
-                    Comece cadastrando seu primeiro treinamento para gerar certificados.
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              trainings.map((training) => (
-                <Card key={training.id} className="bg-white shadow-xl hover:shadow-2xl transition-shadow duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-edhec-blue-900 mb-2">
-                          {training.name}
-                        </h3>
-                        <div className="flex items-center text-gray-600 mb-2">
-                          <Clock className="h-4 w-4 mr-2" />
-                          <span>{training.workload} hora{training.workload !== 1 ? 's' : ''}</span>
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          Criado em {training.createdAt.toLocaleDateString('pt-BR')}
-                        </div>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(training)}
-                          className="text-edhec-blue-700 border-edhec-blue-200 hover:bg-edhec-blue-50"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(training.id)}
-                          className="text-red-600 border-red-200 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+      {/* Training List */}
+      <div className="grid gap-4">
+        {trainings.length === 0 ? (
+          <Card className="clean-card">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold mb-2">
+                Nenhum treinamento cadastrado
+              </h3>
+              <p className="text-muted-foreground text-center mb-4">
+                Comece cadastrando seu primeiro treinamento para gerar certificados.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          trainings.map((training) => (
+            <Card key={training.id} className="clean-card hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-2">
+                      {training.name}
+                    </h3>
+                    <div className="flex items-center text-muted-foreground mb-2">
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span>{training.workload} hora{training.workload !== 1 ? 's' : ''}</span>
                     </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-        </div>
+                    <div className="text-sm text-muted-foreground">
+                      Criado em {training.createdAt.toLocaleDateString('pt-BR')}
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(training)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(training.id)}
+                      className="text-destructive border-destructive/20 hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        )}
       </div>
     </div>
   );
