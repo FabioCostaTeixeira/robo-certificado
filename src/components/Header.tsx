@@ -1,5 +1,5 @@
 
-import { GraduationCap, Settings } from 'lucide-react';
+import { FileText, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
@@ -9,46 +9,36 @@ interface HeaderProps {
 
 export const Header = ({ currentView, onViewChange }: HeaderProps) => {
   return (
-    <header className="bg-white shadow-lg border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-white border-b border-border">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-edhec-gradient rounded-lg flex items-center justify-center">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-edhec-blue-900">EDHEC</h1>
-                <p className="text-sm text-gray-600">Gerador de Certificados</p>
-              </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+              <FileText className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-foreground">Gerador de Certificados</h1>
+              <p className="text-xs text-muted-foreground">Sistema de certificação</p>
             </div>
           </div>
           
-          <nav className="flex space-x-2">
+          <nav className="flex space-x-1">
             <Button
-              variant={currentView === 'dashboard' ? 'default' : 'outline'}
+              variant={currentView === 'dashboard' ? 'default' : 'ghost'}
               onClick={() => onViewChange('dashboard')}
-              className={`${
-                currentView === 'dashboard'
-                  ? 'bg-edhec-yellow-500 hover:bg-edhec-yellow-600 text-black'
-                  : 'border-edhec-blue-200 text-edhec-blue-700 hover:bg-edhec-blue-50'
-              } transition-all duration-200`}
+              className="text-sm"
             >
-              <GraduationCap className="mr-2 h-4 w-4" />
-              Gerar Certificados
+              <FileText className="mr-2 h-4 w-4" />
+              Certificados
             </Button>
             
             <Button
-              variant={currentView === 'trainings' ? 'default' : 'outline'}
+              variant={currentView === 'trainings' ? 'default' : 'ghost'}
               onClick={() => onViewChange('trainings')}
-              className={`${
-                currentView === 'trainings'
-                  ? 'bg-edhec-yellow-500 hover:bg-edhec-yellow-600 text-black'
-                  : 'border-edhec-blue-200 text-edhec-blue-700 hover:bg-edhec-blue-50'
-              } transition-all duration-200`}
+              className="text-sm"
             >
               <Settings className="mr-2 h-4 w-4" />
-              Gerenciar Treinamentos
+              Treinamentos
             </Button>
           </nav>
         </div>

@@ -8,10 +8,10 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<'dashboard' | 'trainings'>('dashboard');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/30">
       <Header currentView={currentView} onViewChange={setCurrentView} />
       
-      <main>
+      <main className="max-w-6xl mx-auto px-6 py-8">
         {currentView === 'dashboard' ? (
           <CertificateGenerator />
         ) : (
