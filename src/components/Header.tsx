@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export const Header = ({ currentView, onViewChange }: HeaderProps) => {
   return (
-    <header className="bg-white border-b border-border">
+    <header className="bg-card border-b border-border">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-3">
